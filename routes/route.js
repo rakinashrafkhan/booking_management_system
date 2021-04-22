@@ -5,13 +5,19 @@ const router = express.Router();
 const routeMiddlewares = require("../middlewares/route");
 
 //Get all routes
-router.get("/", routeMiddlewares.getAllRoutes);
+router.get("/", routeMiddlewares.getRoutes);
 
 //Create a bus
 router.post(
     "/create",
     routeMiddlewares.createRoute
 );
+
+// Update a route
+// router.put("/update", routeMiddlewares.updateRoute);
+
+// // Delete a route
+// router.delete("/delete", routeMiddlewares.deleteRoute);
 
 
 module.exports = router;
