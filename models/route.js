@@ -1,13 +1,9 @@
 module.exports =(sequelize, DataTypes) => {
   const Route = sequelize.define("Route", {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
+    
     route_name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     fare: {
       type: DataTypes.INTEGER
@@ -25,16 +21,13 @@ module.exports =(sequelize, DataTypes) => {
   
   Route.hasMany(sequelize.models.Bus,{
     foreignKey:"routeId",
-    onDelete:"CASCADE"
+    onDelete:"SET NULL"
   })
   Route.hasMany(sequelize.models.Booking,{
     foreignKey:"routeId",
-    onDelete:"CASCADE"
+    onDelete:"SET NULL"
   })
-  Route.belongsTo(sequelize.models.Point,{
-    foreignKey:"pointId",
-    onDelete:"CASCADE"
-  })
+ 
 
 
   return Route;

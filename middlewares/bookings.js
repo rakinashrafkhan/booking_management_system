@@ -16,7 +16,7 @@ exports.getAllBookings = (req, res) => {
 
 //Create a booking
 exports.createBooking = async (req, res) => {
-    const { busTimeId, passengerId, date } = req.body;
+    const { bus_timeId, passengerId, date } = req.body;
 
     const decoded = jwtdecode(req.headers["authorization"]);
     const user = decoded.user;
@@ -27,9 +27,11 @@ exports.createBooking = async (req, res) => {
         });
     }
 
+    
     let busTimeObject = await Bus_time.findOne({
-        where: { id: busTimeId },
+        where: { id: bus_timeId },
     });
+
     let passengerObject = await Passenger.findOne({
         where: { id: passengerId },
     });
@@ -43,44 +45,51 @@ exports.createBooking = async (req, res) => {
     let busObject = await Bus.findOne({
         where: { id: busTimeObject.busId },
     });
-    console.log(busObject);
+    // console.log(busObject);
 
     try {
+        console.log(1)
         let routeObject = await Route.findOne({
-            where: { id: busTimeObject.busId },
+            where: { id: busObject.routeId },
         });
-        console.log(routeObject);
+        // console.log(routeObject);
+        console.log(2)
         let driverObject = await Driver.findOne({
             where: { id: busObject.driverId },
         });
-        console.log(driverObject);
-
+        // console.log(driverObject);
+        console.log(3)
         let pickPoint = routeObject.route_name.split("-")[0];
-        console.log(pickPoint);
+        // console.log(pickPoint);
+        console.log(4)
         let dropPoint = routeObject.route_name.split("-")[1];
-        console.log(dropPoint);
+        // console.log(dropPoint);
+        console.log(5)
 
         let pickPointObject = await Point.findOne({
             where: { point_name: pickPoint },
         });
-        console.log(pickPointObject);
+        // console.log(pickPointObject);
+        console.log(6)
         let dropPointObject = await Point.findOne({
             where: { point_name: dropPoint },
         });
-        console.log(dropPointObject);
+        console.log(7)
+        // console.log(dropPointObject);
 
         let bookingObject = await Booking.create({
             routeId: routeObject.id,
-            busTimeId,
+            bus_timeId,
             passengerId,
             driverId: driverObject.id,
-            pickPoint: pickPointObject.id,
-            dropPoint: dropPointObject.id,
+            pickPointId: pickPointObject.id,
+            dropPointId: dropPointObject.id,
             date,
             isCompleted: false,
         });
 
-        console.log(bookingObject);
+        console.log(8)
+        // console.log(bookingObject);
 
         res.json({ bookingObject });
     } catch (error) {

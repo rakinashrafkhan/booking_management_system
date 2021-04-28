@@ -1,23 +1,10 @@
 module.exports =(sequelize, DataTypes) => {
     const Route_point = sequelize.define("Route_point", {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: DataTypes.DATE
-      },
+      
       routeId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'routes',
+          model: sequelize.models.Route,
           key: 'id'
         },
         allowNull: false
@@ -25,7 +12,7 @@ module.exports =(sequelize, DataTypes) => {
       pointId: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'points',
+          model: sequelize.models.Point,
           key: 'id'
         },
         allowNull: false
@@ -36,6 +23,11 @@ module.exports =(sequelize, DataTypes) => {
       foreignKey:"routeId",
       onDelete:"CASCADE"
     })
+
+    Route_point.belongsTo(sequelize.models.Point, {
+      foreignKey: "pointId",
+      onDelete: "CASCADE",
+    });
     
     return Route_point;
   };

@@ -1,19 +1,19 @@
-const {Route, Point, Route_points, sequelize} = require("../models");
+const {Route, Point, Route_point, sequelize} = require("../models");
 
 //get all routes
 exports.getRoutes = (req, res) => {
-    Route.findAll().then(routes => res.json(routes));
+    Route.findAll().then((routes) => res.json({routes}));
 };
 
  //create a route
  exports.createRoute = async (req, res) => {
      const {
-        route_name,
+        pointsId,
         fare,
-        pointsId
+        
      } = req.body;
      
-     console.log(pointsId)
+     console.log(pointsId);
 
      for (const pointId of pointsId) {
          if (typeof pointId != "number") {
@@ -57,7 +57,7 @@ exports.getRoutes = (req, res) => {
      });
 
      for (const pointId of pointsId) {
-         let routePointObject = await Route_points.create({
+         let routePointObject = await Route_point.create({
              routeId: routeObject.id,
              pointId: pointId,
          });

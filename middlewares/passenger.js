@@ -1,6 +1,6 @@
 const {Passenger, 
        Route, 
-       Route_points, 
+       Route_point, 
        Bus, 
        Point, 
        Bus_time, 
@@ -8,6 +8,7 @@ const {Passenger,
 
 const jwt = require("jsonwebtoken");
 const jwtdecode = require("jwt-decode");
+
 
 //get all passengers
 exports.getPassengers = (req, res) => {
@@ -20,7 +21,8 @@ exports.getPassengers = (req, res) => {
         name,
         email,
         phone,
-        company } = req.body; 
+        company,  
+        password } = req.body; 
 
          
         Passenger.create({
@@ -28,6 +30,7 @@ exports.getPassengers = (req, res) => {
         email,
         phone,
         company,
+        password
 })
         .then((passenger) => res.json({passenger}))
         .catch((err) => console.log(err));
@@ -55,7 +58,7 @@ exports.searchRoute = async (req, res) => {
     });
 
     for (const route of routeObjects) {
-        let routePoints = await Route_points.findAll({
+        let routePoint = await Route_point.findAll({
             where: { routeId: route.id },
         });
         let busObjects = await Bus.findAll({
@@ -82,14 +85,14 @@ exports.searchRoute = async (req, res) => {
 
         let totalRoute = "";
 
-        for (const [index, routePoints] of routePoints.entries()) {
+        for (const [index, routePoint] of routePoint.entries()) {
             let pointObject = await Point.findOne({
-                where: { id: routePoints.pointId },
+                where: { id: routePoint.pointId },
             });
 
             totalRoute = totalRoute + pointObject.point_name;
 
-            if (index != routePoints.length - 1) {
+            if (index != routePoint.length - 1) {
                 totalRoute = totalRoute + "-";
             }
         }
@@ -126,7 +129,7 @@ exports.login = async (req, res) => {
 
         jwt.sign({ user: passenger }, "secretkey", (err, token) => {
             res.json({
-                token,
+                token, 
             });
         });
     } else {

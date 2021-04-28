@@ -1,17 +1,21 @@
 module.exports =(sequelize, DataTypes) => {
   const Passenger = sequelize.define("Passenger", {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
+    
     name: {
       type: DataTypes.STRING
     },
     email: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     },
+    password: {
+			type: DataTypes.STRING,
+			// allowNull: false,
+			// validate: {
+			// 	notEmpty: true,
+			// },
+		},
     phone: {
       type: DataTypes.INTEGER
     },
@@ -29,7 +33,7 @@ module.exports =(sequelize, DataTypes) => {
   });
   Passenger.hasMany(sequelize.models.Booking,{
     foreignKey:"passengerId",
-    onDelete:"CASCADE"
+    onDelete:"SET NULL"
   })
   
   return Passenger;

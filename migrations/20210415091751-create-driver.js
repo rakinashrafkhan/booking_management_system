@@ -14,6 +14,13 @@ module.exports = {
       phone: {
         type: Sequelize.INTEGER
       },
+      password: {
+				type: Sequelize.STRING,
+				// allowNull: false,
+				// validate: {
+				// 	notEmpty: true,
+				// },
+			},
       company: {
         type: Sequelize.STRING
       },

@@ -2,7 +2,7 @@ const {Bus, Route, Time, Driver, Bus_time} = require("../models");
 
 //get all buses
 exports.getAllBuses = (req, res) => {
-    Bus.findAll().then(buses => res.json(buses));
+    Bus.findAll().then((buses) => res.json({buses}));
 };
 
  //create a bus
@@ -16,15 +16,20 @@ exports.getAllBuses = (req, res) => {
         timeId,    
     } = req.body; 
 
+    console.log(1)
     let routeExits = await Route.findOne({ where: {id: routeId}});
-    let driverExits = await Driver.findOne({where: {id: driverId},});
+    console.log(2)
+    let driverExits = await Driver.findOne({where: {id: driverId}});
+    console.log(3)
     let timeExits = await Time.findOne({where: {id: timeId}});
+    console.log(4)
 
     if (!routeExits || !timeExits || !driverExits) {
         return res.json({msg: "Your driver/time/route selection is invalid"});
     }
     
-    try {
+   
+    try { 
         let busObject = await Bus.create({
             bus_number,
             name,
@@ -33,11 +38,16 @@ exports.getAllBuses = (req, res) => {
             driverId,
         });
 
-        let busTimeObject = Bus_time.create({
+        console.log(6)
+
+        let busTimeObject =await Bus_time.create({
             busId: busObject.id,
             timeId: timeId,
         });
 
+        console.log(7)
+
+        console.log(busObject);
         console.log(busTimeObject);
 
         res.json({ busObject });

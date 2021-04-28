@@ -1,23 +1,23 @@
-const { Route_points, 
+const { Route_point, 
         Route, 
         Point, sequelize } = require("../models");
 
 //Get all route points
-exports.createRoutePoints = (req, res) => {
-    Route_points.findAll().then((routePoints) =>
+exports.getRoutePoints = (req, res) => {
+    Route_point.findAll().then((routePoints) =>
     res.json({ routePoints })
     );
 };
 
 //Create a route point
-exports.createRoutePoints = async (req, res) => {
+exports.createRoutePoint = async (req, res) => {
     const { routeId, pointId } = req.body;
 
     if(!routeId || !pointId) {
         return res.json({ msg: "Enter both routeId & pointId."});
     }
 
-    let exists = await Route_points.findOne({
+    let exists = await Route_point.findOne({
         where: {
             routeId,
             pointId,
@@ -47,11 +47,11 @@ exports.createRoutePoints = async (req, res) => {
         return res.json({ msg: "pointId doesn't exist."});
     }
 
-    Route_points.create({
+    Route_point.create({
         routeId,
         pointId,
     })
-        .then((routePoints) => res.json({ routePoints }))
+        .then((routePoints) => res.json({ routePoints}))
         .catch((err) => {
              console.log(err);
              res.json({
@@ -61,12 +61,12 @@ exports.createRoutePoints = async (req, res) => {
 };
 
 //Update a route point
-exports.updateRoutePoints = async (req, res) => {
+exports.updateRoutePoint = async (req, res) => {
     const { id, routeId, pointId } = req.body;
 
-    let routePointsObject = await Route_points.findOne({ where: { id }});
+    let routePointObject = await Route_point.findOne({ where: { id }});
 
-    if (routePointsObject) {
+    if (routePointObject) {
         Route_points.update(
             {
                 routeId,
@@ -96,10 +96,10 @@ exports.updateRoutePoints = async (req, res) => {
 exports.deleteRoutePoint = async (req, res) => {
     const { id } = req.body;
 
-    let routePointsObject = await Route_points.findOne({ where: { id }});
+    let routePointObject = await Route_point.findOne({ where: { id }});
 
-    if (routePointsObject) {
-        Route_points.destroy({
+    if (routePointObject) {
+        Route_point.destroy({
             where: {
                 id,
             },

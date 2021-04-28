@@ -1,7 +1,7 @@
 const {Driver} = require("../models");
 const  {Passenger, 
         Route, 
-        Route_points, 
+        Route_point, 
         Point, 
         Bus, 
         Bus_time, 
@@ -13,7 +13,7 @@ const jwt = require("jsonwebtoken");
 const jwtdecode = require("jwt-decode");
 
 //get all drivers
-exports.getAllDrivers = (req, res) => {
+exports.getDrivers = (req, res) => {
     Driver.findAll().then(drivers => res.json(drivers));
 };
 
@@ -22,13 +22,15 @@ exports.getAllDrivers = (req, res) => {
      const {
         name,
         phone,
-        company } = req.body; 
+        company, 
+        password } = req.body; 
 
          
         Driver.create({
         name,
         phone,
         company,
+        password
 })
         .then((driver) => res.json({driver}))
         .catch((err) => {
@@ -58,6 +60,8 @@ exports.getAllDrivers = (req, res) => {
 
  //See driver buses
  exports.getBuses = async (req, res) => {
+
+        
 
         const decoded = jwtdecode(req.headers["authorization"]);
         const user = decoded.user;
@@ -123,4 +127,5 @@ exports.login = async (req, res) => {
 };
 
  
+
 

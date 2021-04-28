@@ -1,12 +1,7 @@
 
 module.exports =(sequelize, DataTypes) => {
     const Booking = sequelize.define("Booking", {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
+      
       name: {
         type: DataTypes.STRING
       },
@@ -73,7 +68,7 @@ module.exports =(sequelize, DataTypes) => {
         allowNull: false
       },
       isCompleted:{
-        type: DataTypes.INTEGER
+        type: DataTypes.BOOLEAN
       },
     });
   

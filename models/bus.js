@@ -1,19 +1,17 @@
 module.exports =(sequelize, DataTypes) => {
     const Bus = sequelize.define("Bus", {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
+      
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       bus_number: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       type:{
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -23,7 +21,7 @@ module.exports =(sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE
       },
-      routeId: {
+      /*routeId: {
         type: DataTypes.INTEGER,
         references: {
           model: 'routes',
@@ -38,7 +36,7 @@ module.exports =(sequelize, DataTypes) => {
           key: 'id'
         },
         allowNull: false 
-      },
+      },*/
     });
 
      
